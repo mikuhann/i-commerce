@@ -26,23 +26,4 @@
   &:last-child {
     margin-left: 7.5px;
   }
-  .menu-item-content {
-    height: 90px;
-    padding: 0 25px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid black;
-    .menu-item-title {
-      font-weight: bold;
-      margin-bottom: 5px;
-      font-size: 20px;
-      color: #4a4a4a;
-    }
-    .menu-item-subtitle {
-      font-weight: lighter;
-      font-size: 16px;
-    }
-  }
 }
