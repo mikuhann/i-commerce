@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 
 import FormInputComponent from '../form-input/form-input.component';
+import ButtonComponent from '../button/button.component';
 
 import './signin.styles.scss'
 
@@ -37,7 +38,9 @@ const SigninComponent = () => {
           handleChange={onChange}
           label='Password'
           required />
-        <input type="submit" value='Submit'/>
+        <ButtonComponent type="submit">
+          Sign in
+        </ButtonComponent>
       </form>
     </div>
   );
