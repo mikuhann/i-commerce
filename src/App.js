@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/shopPage';
 import HeaderComponent from './components/header/header.component';
 import AuthenticationPage from './pages/authentication/authentication.component';
+
+import { firebaseAuth } from './firebase/firebase.utils';
 
 import {
   HOME,
@@ -14,10 +16,18 @@ import {
 
 import './App.css';
 
-function App() {
+const App = () => {
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    firebaseAuth.onAuthStateChanged((user) => {
+      setCurrentUser(user);
+    })
+  }, [currentUser]);
+
   return (
     <div>
-      <HeaderComponent />
+      <HeaderComponent currentUser={currentUser} />
       <Switch>
         <Route exact path={HOME} component={HomePage} />
         <Route exact path={SHOP} component={ShopPage} />
