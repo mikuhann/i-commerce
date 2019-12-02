@@ -6,7 +6,7 @@ import ShopPage from './pages/shop/shopPage';
 import HeaderComponent from './components/header/header.component';
 import AuthenticationPage from './pages/authentication/authentication.component';
 
-import { firebaseAuth } from './firebase/firebase.utils';
+import { firebaseAuth, createUserProfile } from './firebase/firebase.utils';
 
 import {
   HOME,
@@ -20,7 +20,8 @@ const App = () => {
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    firebaseAuth.onAuthStateChanged((user) => {
+    firebaseAuth.onAuthStateChanged(async (user) => {
+      await createUserProfile(user);
       setCurrentUser(user);
     })
   }, [currentUser]);
