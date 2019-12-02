@@ -21,9 +21,19 @@ const App = () => {
 
   useEffect(() => {
     firebaseAuth.onAuthStateChanged(async (user) => {
-      await createUserProfile(user);
-      setCurrentUser(user);
-    })
+      if (user) {
+        const signinUser = await createUserProfile(user);
+
+        signinUser.onSnapshot((snapshot) => {
+          setCurrentUser({
+            id: snapshot.id,
+            ...snapshot.data(),
+          });
+        });
+      } else {
+        setCurrentUser(user)
+      }
+    });
   }, [currentUser]);
 
   return (
