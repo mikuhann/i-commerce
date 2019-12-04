@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import FormInputComponent from '../form-input/form-input.component';
 import ButtonComponent from '../button/button.component';
 
-import { signInWithGoogle } from '../../firebase/firebase.utils';
+import { firebaseAuth, signInWithGoogle } from '../../firebase/firebase.utils';
 
 import './signin.styles.scss'
 
@@ -16,9 +16,22 @@ const SigninComponent = () => {
   const { email, password } = user;
 
   const onChange = (e) => setUser({ ...user, [e.target.name]: e.target.value });
-  const onSubmitForm = (e) => {
+
+  const onSubmitForm = async (e) => {
     e.preventDefault();
-    console.log(user);
+
+    const { email, password } = user;
+
+    try {
+      await firebaseAuth.signInWithEmailAndPassword(email, password);
+
+      setUser({
+        email: '',
+        password: ''
+      })
+    } catch (e) {
+      console.log(e)
+    }
   };
 
   return (
