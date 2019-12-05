@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/shopPage';
@@ -7,6 +8,7 @@ import HeaderComponent from './components/header/header.component';
 import AuthenticationPage from './pages/authentication/authentication.component';
 
 import { firebaseAuth, createUserProfile } from './firebase/firebase.utils';
+import { setCurrentUser } from './redux/user/user.actions';
 
 import {
   HOME,
@@ -16,9 +18,7 @@ import {
 
 import './App.css';
 
-const App = () => {
-  const [currentUser, setCurrentUser] = useState(null);
-
+const App = ({ setCurrentUser }) => {
   useEffect(() => {
     firebaseAuth.onAuthStateChanged(async (user) => {
       if (user) {
@@ -34,11 +34,11 @@ const App = () => {
         setCurrentUser(user)
       }
     });
-  }, [currentUser]);
+  }, []);
 
   return (
     <div>
-      <HeaderComponent currentUser={currentUser} />
+      <HeaderComponent />
       <Switch>
         <Route exact path={HOME} component={HomePage} />
         <Route exact path={SHOP} component={ShopPage} />
@@ -46,6 +46,10 @@ const App = () => {
       </Switch>
     </div>
   );
-}
+};
 
-export default App;
+const mapDispatchToProps = (dispatch) => ({
+  setCurrentUser: user => dispatch(setCurrentUser(user))
+});
+
+export default connect(null, mapDispatchToProps)(App);
